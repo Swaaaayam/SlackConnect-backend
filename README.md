@@ -55,6 +55,8 @@ Start the server:
 npm run dev
 
 Architectural Overview
+
+
 The backend uses a clear separation of concerns:
 
 app.ts: The main Express application file that defines all routes.
@@ -68,3 +70,13 @@ slackService.ts: A service layer that encapsulates all direct calls to the Slack
 db.ts: Manages the connection to the SQLite database.
 
 A background process runs every minute to check for and send scheduled messages.
+
+Challenges & Learnings 
+
+OAuth 2.0 Flow: Successfully implementing the OAuth 2.0 flow, especially handling the redirect and token exchange, was a key challenge.
+
+Token Management: The automatic refresh token logic was critical to ensuring the application could maintain a connection to Slack without user re-authentication.
+
+Full-Stack Integration: Aligning the frontend API calls with the backend's routes and data models required careful coordination to ensure a seamless flow of information.
+
+Environment Variable Management: A significant challenge was ensuring that the .env variables were correctly loaded and accessed across different parts of the application, especially with the TypeScript transpilation process.
