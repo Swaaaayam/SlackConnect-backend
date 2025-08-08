@@ -24,3 +24,47 @@ POST /api/message/schedule: Schedules a message to be sent at a future date and 
 GET /api/message/scheduled: Retrieves a list of all currently scheduled messages.
 
 DELETE /api/message/scheduled/:id: Cancels a scheduled message by its ID.
+
+
+Setup Instructions
+Install dependencies:
+
+npm install
+
+Create and configure your .env file:
+
+Go to https://api.slack.com/apps.
+
+Create a new app and set the OAuth & Permissions Redirect URL to your local backend URL (e.g., http://localhost:4000/auth/callback).
+
+In Your App > OAuth & Permissions > Scopes, add channels:read and chat:write.public.
+
+Copy your Client ID and Client Secret.
+
+Create a .env file in the root of this directory with the following content:
+
+PORT=4000
+SLACK_CLIENT_ID=your_client_id_here
+SLACK_CLIENT_SECRET=your_client_secret_here
+SLACK_REDIRECT_URI=http://localhost:4000/auth/callback
+FRONTEND_URL=http://localhost:5173
+DB_PATH=./data/sqlite.db
+
+Start the server:
+
+npm run dev
+
+Architectural Overview
+The backend uses a clear separation of concerns:
+
+app.ts: The main Express application file that defines all routes.
+
+authController.ts: Handles the OAuth 2.0 authorization process.
+
+messageController.ts: Manages all message-related API endpoints.
+
+slackService.ts: A service layer that encapsulates all direct calls to the Slack API, including the critical access token refresh logic.
+
+db.ts: Manages the connection to the SQLite database.
+
+A background process runs every minute to check for and send scheduled messages.
